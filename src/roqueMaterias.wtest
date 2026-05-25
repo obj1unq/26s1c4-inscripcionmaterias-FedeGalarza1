@@ -1,0 +1,43 @@
+import inscripciones.*
+
+describe "Roque - Materias a inscribir por carrera" {
+
+test "Roque puede inscribirse a Objetos 2 y Concurrente en Programación, y a Biología 2 en Medicina" {
+const elementos = new Materia(cupo = 3)
+const matematica1 = new Materia(cupo = 3)
+const objetos1 = new Materia(cupo = 3)
+const objetos2 = new Materia(cupo = 3)
+const objetos3 = new Materia(cupo = 3)
+const basesDatos = new Materia(cupo = 3)
+const concurrente = new Materia(cupo = 3)
+const biologia1 = new Materia(cupo = 3)
+const biologia2 = new Materia(cupo = 3)
+const quimica = new Materia(cupo = 3)
+
+
+objetos2.correlativas([objetos1, matematica1])
+objetos3.correlativas([objetos2, basesDatos])
+concurrente.correlativas([objetos1, basesDatos])
+biologia2.correlativas([biologia1])
+
+const programacion = new Carrera()
+programacion.materiaDeCarrera([elementos, matematica1, objetos1, objetos2, objetos3, concurrente, basesDatos])
+
+const medicina = new Carrera()
+medicina.materiaDeCarrera([biologia1, biologia2, quimica])
+
+const roque = new Estudiante()
+roque.inscribirseEnCarreras(programacion)
+roque.inscribirseEnCarreras(medicina)
+
+roque.aprobar(elementos, 8)
+roque.aprobar(matematica1, 8)
+roque.aprobar(objetos1, 8)
+roque.aprobar(basesDatos, 8)
+roque.aprobar(quimica, 8)
+roque.aprobar(biologia1, 8)
+
+assert.equals([objetos2, concurrente], roque.materiasDeCarreraAInscribir(programacion))
+assert.equals([biologia2], roque.materiasDeCarreraAInscribir(medicina))
+  }
+}
