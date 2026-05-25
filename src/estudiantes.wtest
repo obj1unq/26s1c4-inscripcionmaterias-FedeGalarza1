@@ -1,0 +1,49 @@
+import inscripciones.*
+
+describe "Cupo y lista de espera" {
+
+test "cupo y lista de espera en objetos2" {
+const objetos1 = new Materia(cupo = 3)
+const objetos2 = new Materia(cupo = 3)
+const matematica1 = new Materia(cupo = 3)
+
+objetos2.correlativas([objetos1, matematica1])
+
+const programacion = new Carrera()
+programacion.materiaDeCarrera([objetos1, matematica1, objetos2])
+
+const roque = new Estudiante()
+const luisa = new Estudiante()
+const romina = new Estudiante()
+const alicia = new Estudiante()
+const ana = new Estudiante()
+
+roque.inscribirseEnCarreras(programacion)
+luisa.inscribirseEnCarreras(programacion)
+romina.inscribirseEnCarreras(programacion)
+alicia.inscribirseEnCarreras(programacion)
+ana.inscribirseEnCarreras(programacion)
+
+luisa.aprobar(objetos1, 8)
+luisa.aprobar(matematica1, 9)
+
+romina.aprobar(objetos1, 7)
+romina.aprobar(matematica1, 8)
+
+alicia.aprobar(objetos1, 10)
+alicia.aprobar(matematica1, 6)
+
+roque.aprobar(objetos1, 9)
+roque.aprobar(matematica1, 7)
+
+objetos2.inscribir(luisa)
+objetos2.inscribir(romina)
+objetos2.inscribir(alicia)
+objetos2.inscribir(roque) // Excede el cupo, debería ir a lista de espera
+
+// Verificaciones
+assert.equals(3, objetos2.estudiantesInscriptos().size())
+assert.that(objetos2.listaDeEspera().contains(roque))
+assert.notThat(objetos2.estudiantesInscriptos().contains(roque))
+}
+}

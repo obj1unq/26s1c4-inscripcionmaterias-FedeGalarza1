@@ -1,0 +1,45 @@
+import inscripciones.*
+
+describe "Roque - correlativas" {
+
+test "puede o no puede inscribirse" {
+
+const objetos1 = new Materia(cupo = 3)
+const objetos2 = new Materia(cupo = 3)
+const objetos3 = new Materia(cupo = 3)
+const basesDatos = new Materia(cupo = 3)
+
+const biologia1 = new Materia(cupo = 3)
+const biologia2 = new Materia(cupo = 3)
+
+const matematica1 = new Materia(cupo = 3)
+const elementos = new Materia(cupo = 3)
+
+const concurrente = new Materia(cupo = 3)
+
+objetos2.correlativas([objetos1, matematica1])
+objetos3.correlativas([objetos2, basesDatos])
+concurrente.correlativas([objetos1, basesDatos])
+biologia2.correlativas([biologia1])
+
+const programacion = new Carrera()
+programacion.materiaDeCarrera([elementos,matematica1,objetos1,objetos2,objetos3,concurrente,basesDatos])
+
+const medicina = new Carrera()
+medicina.materiaDeCarrera([biologia1, biologia2])
+
+const roque = new Estudiante()
+roque.inscribirseEnCarreras(programacion)
+roque.inscribirseEnCarreras(medicina)
+
+roque.aprobar(elementos, 8)
+roque.aprobar(matematica1, 8)
+roque.aprobar(objetos1, 8)
+roque.aprobar(basesDatos, 8)
+roque.aprobar(biologia1, 8)
+
+assert.that(roque.sePuedeInscribir(objetos2))
+assert.notThat(roque.sePuedeInscribir(objetos3))
+assert.notThat(roque.sePuedeInscribir(objetos1))
+  }
+}
